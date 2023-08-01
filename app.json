@@ -1,0 +1,16 @@
+{
+    "name": "xlients",
+    "description": "xlients bot.",
+    "logo": "https://telegra.ph/file/1796bdfba05df984000ec.jpg",
+    "keywords": [
+      "ddos",
+      "telebot",
+      "modules"
+    ],
+    "repository": "https://github.com/xlients/ddosbot",
+    "buildpacks": [{
+        "url": "heroku/python"
+      },{
+        "url": "https://github.com/heroku/heroku-buildpack-apt.git"
+    }]
+}
