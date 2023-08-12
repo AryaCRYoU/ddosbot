@@ -8,7 +8,6 @@ import os
 import telegram 
 import requests 
 import bot
-import httpfspoof
 import Update
 from telegram.ext import Updater, CallbackContext, CommandHandler, MessageHandler, Filters, update
 from telegram.update import Update
